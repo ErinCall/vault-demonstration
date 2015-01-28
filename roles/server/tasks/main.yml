@@ -1,0 +1,17 @@
+---
+- apt: name={{item}} state=present
+  with_items:
+    - python-pip
+    - tree
+    - git
+    - nginx
+
+- user: name=catfart state=present shell=/bin/bash home=/home/catfart
+
+- name: nginx conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root mode=0444
+  notify: restart nginx
+
+- file: dest=/home/catfart/site state=directory owner=catfart group=catfart mode=0777
+- copy: src=index.html dest=/home/catfart/site/index.html owner=catfart mode=0444
+- copy: src=catfart.gif dest=/home/catfart/site/catfart.gif owner=catfart mode=0444
